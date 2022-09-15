@@ -1,0 +1,27 @@
+{
+  "name": "teamgenerator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Proper-Stevo/TeamGenerator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Proper-Stevo/TeamGenerator/issues"
+  },
+  "homepage": "https://github.com/Proper-Stevo/TeamGenerator#readme",
+  "dependencies": {
+    "inquirer": "^9.1.1"
+  }
+}
