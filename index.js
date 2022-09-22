@@ -47,7 +47,7 @@ function questions(){
 inquirer
     .prompt(managerQuestions)
     .then((response) => {
-        const Manager = new Manager(response.name, response.id, response.email, response.officeNumber);
+        const GenManager = new Manager(response.name, response.id, response.email, response.officeNumber);
         const createCard = cardTemplates.generateManagerCard(Manager);
         mainBody += generateCard;
 
@@ -99,12 +99,55 @@ function askIntern(){
     })
     .then((response) => {
         if(response.internalcard === "yes"){
-            createEngineerCard();
+            createInternCard();
         }
     });
 }
+function createInternCard() {
+    const internQuestions = InternArray.concat(internQuestions);
+
+    inquirer
+        .prompt(internQuestions)
+        .then((response) => {
+            const GenIntern = new Intern(response.name, response.id, response.email, response.SchoolInfo);
+            const createCard = cardTemplates.createInternCard(Intern);
+            mainBody += generateCard;
+    
+            nextMember();
+        })
+    }
+
+function createEngineerCard() {
+    const engineerQuestions = EngineerArray.concat(engineerQuestions);
+
+    inquirer
+        .prompt(engineerQuestions)
+        .then((response) => {
+            const GenEngineer = new Engineer(response.name, response.id, response.email, response.GBuserInfo);
+            const createCard = cardTemplates.createEngineerCard(Engineer);
+        })
+}
+function createHTMLFile(){
+    const writeHTMLFile = `
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Best Team Ever</title>
+
+</head>
+<body>
+    
+</body>
+</html>`
+
+fs.writeFile("index.html", writeHTMLFile, (err) =>
+err? console.log(err) : console.log("Success!!"))
+}
 questions();
-// run inquirer to create position through questions, 
-// with the answers create template for positions, 
-//create the html/css through fs. 
-// run another function to create the rest of the positions. 
+//notes from mini project on Node and OOP
