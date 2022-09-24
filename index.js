@@ -32,17 +32,17 @@ const ManagerArray = [{
 const EngineerArray = [{
     type: "input",
     message: "whats your github username?",
-    name: "GBuserName"
+    name: "github"
 }]
 
 const InternArray = [{
     type: "input",
     message: "what is your school name?",
-    name: "SchoolInfo"
+    name: "school"
 }]
 function questions(){
 
-    const managerQuestions = ManagerArray.concat(managerQuestions);
+    const managerQuestions = ManagerArray.concat(promptArray);
 
 inquirer
     .prompt(managerQuestions)
@@ -81,7 +81,7 @@ function askEngineer(){
         choices: ["yes", "no"],
     })
     .then((response) => {
-        if(response.addition === "yes"){
+        if(response.add === "yes"){
             createEngineerCard();
         } else {
             askIntern();
@@ -104,12 +104,12 @@ function askIntern(){
     });
 }
 function createInternCard() {
-    const internQuestions = InternArray.concat(internQuestions);
+    const internQuestions = InternArray.concat(promptArray);
 
     inquirer
         .prompt(internQuestions)
         .then((response) => {
-            const GenIntern = new Intern(response.name, response.id, response.email, response.SchoolInfo);
+            const GenIntern = new Intern(response.name, response.id, response.email, response.school);
             const createCard = generateInternHTML(GenIntern);
             mainBody += createCard;
     
@@ -118,53 +118,57 @@ function createInternCard() {
     }
 
 function createEngineerCard() {
-    const engineerQuestions = EngineerArray.concat(engineerQuestions);
+    const engineerQuestions = EngineerArray.concat(promptArray);
 
     inquirer
         .prompt(engineerQuestions)
         .then((response) => {
-            const GenEngineer = new Engineer(response.name, response.id, response.email, response.GBuserInfo);
+            const GenEngineer = new Engineer(response.name, response.id, response.email, response.github);
             const createCard = generateEngineerHTML(GenEngineer);
             mainBody += createCard;
+
+            nextMember();
         })
 }
 
 function generateHTMLFile(){
     const writeHTMLFile = `
-    <!DOCTYPE html>
+    <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="/TeamGenerator/sc/style.css">
+    <title>Best Team Ever</title>
+  </head>
+  <body>
+   <header><h1>UCLA Team</h1></header>
+    <div class="card-group">
+   ${mainBody}
+   </div>
+    </body>
+    
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
-    <title>Best Team Ever</title>
-    
-</head>
-<body>
-
-    <${mainBody}>
-</body>
+  
 </html>`
 // center the body on bootstrap
 
 fs.writeFile("index.html", writeHTMLFile, (err) =>
 err? console.log(err) : console.log("Success!!"))
 }
-//notes from mini project on Node and OOP
-// card.html for everyone. 
-// create seperate function that returns html card strings
+
+
 function generateManagerHTML(manager) {
     return `
     <div class="card" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">${manager.name}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
+    <p class="card-text">Office Number:${manager.officeNumber} <br> Manager ID:${manager.id} <br> Manager Email:${manager.email} </p>
   </div>
 </div>
 
@@ -175,10 +179,7 @@ function generateEngineerHTML(engineer) {
     <div class="card" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">${engineer.name}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
+    <p class="card-text">Engineer ID:${engineer.id} <br> Engineer Email:${engineer.email} <br> Engineer Github: http://github.com/${engineer.github}<p>
   </div>
 </div>
 
@@ -189,10 +190,7 @@ function generateEngineerHTML(engineer) {
         <div class="card" style="width: 18rem;">
       <div class="card-body">
         <h5 class="card-title">${intern.name}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>
+        <p class="card-text">Intern ID:${intern.id} <br> Intern Email:${intern.email} <br> Intern School:${intern.school}</p>
       </div>
     </div>
     

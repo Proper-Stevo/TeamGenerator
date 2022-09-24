@@ -1,0 +1,23 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    background-color: lightgray;
+    display: flex;
+  }
+  
+  header {
+    padding: 60px;
+    text-align: center;
+    background: blue;
+    color: #fff;
+  }
+  
+
+  .card-columns {
+    @include media-breakpoint-only(lg) {
+      column-count: 4;
+    }
+    @include media-breakpoint-only(xl) {
+      column-count: 5;
+    }
+  }
