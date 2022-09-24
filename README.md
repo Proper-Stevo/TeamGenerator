@@ -45,3 +45,6 @@ GitHub: https://github.com/Proper-Stevo/TeamGenerator
 
 Page: https://proper-stevo.github.io/TeamGenerator/
 
+Terminal: ![alt text](https://github.com/Proper-Stevo/TeamGenerator/blob/main/sc/Screenshot%202022-09-24%20at%204.41.16%20PM.png)
+
+Finished Product: ![alt text](https://github.com/Proper-Stevo/TeamGenerator/blob/main/sc/Screenshot%202022-09-24%20at%204.42.07%20PM.png)
